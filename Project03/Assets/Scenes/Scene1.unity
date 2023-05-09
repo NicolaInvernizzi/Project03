@@ -1071,27 +1071,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationRange: {x: 30, y: 30, z: 60}
   maxRotationRange: {x: 30, y: 30, z: 10}
-  rotationSpeedUpDown: 30
-  rotationSpeedLeftRight: 30
-  min_DirectionVelocity: {x: 6, y: -1.7, z: 0}
-  max_DirectionVelocity: {x: 0.5, y: -1, z: 0}
-  min_DirectionVelocity2: {x: 4.11, y: -1.7, z: 5.2}
-  max_DirectionVelocity2: {x: 1.65, y: -1, z: -2.93}
+  rotationSpeedUpDown: 20
+  rotationSpeedLeftRight: 15
+  directionVelocity_up: {x: 6, y: -1.7, z: 0}
+  directionVelocity_down: {x: 0.5, y: -1, z: 0}
+  directionVelocity_left: {x: 6, y: -4, z: -2}
+  directionVelocity_right: {x: 6, y: -4, z: 2}
   min_MagnitudeVelocity: 5
-  max_MagnitudeVelocity: 10
-  min_MagnitudeVelocity_Color: {r: 0, g: 0, b: 0, a: 1}
-  max_MagnitudeVelocity_Color: {r: 0, g: 1, b: 1, a: 1}
-  lineLength: 10
+  max_MagnitudeVelocity: 20
   labelPosition: {x: 1, y: 1, z: 1}
   mouse_wasd: 0
-  stopPlayer: 1
-  stopPosition: {x: -143, y: 108.5, z: -5.9}
-  showVelocity: 1
-  showUpDownLimits: 1
-  showLeftRightLimits: 1
-  upDown: 0
-  leftRight: 0
-  both: 1
+  stopPlayer: 0
+  stopPosition: {x: 0, y: 0, z: 0}
+  lineLength: 10
+  draw_Velocity: 1
+  draw_DirectionUpDown: 0
+  draw_DirectionLeftRight: 0
+  draw_MovemenZone: 1
+  frequencyLine: 0.01
 --- !u!54 &326490673
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4302,7 +4299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184653493}
   m_LocalRotation: {x: -0.039131936, y: 0.024788713, z: 0.5297951, w: 0.84685975}
-  m_LocalPosition: {x: -55.6, y: 41.8, z: -19.5}
+  m_LocalPosition: {x: -64.24, y: 46.07, z: -18.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
