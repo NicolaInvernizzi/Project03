@@ -61,14 +61,14 @@ public class PhysicMovement : MonoBehaviour
 
         if (draw_DirectionUpDown)
         {
-            Debug.DrawRay(transform.position, directionVelocity_down.normalized * max_MagnitudeVelocity * lineLength, Color.magenta);
-            Debug.DrawRay(transform.position, directionVelocity_up.normalized * min_MagnitudeVelocity * lineLength, Color.gray);
+            Debug.DrawRay(transform.position, directionVelocity_down.normalized * max_MagnitudeVelocity * lineLength, Color.green);
+            Debug.DrawRay(transform.position, directionVelocity_up.normalized * min_MagnitudeVelocity * lineLength, Color.green);
         }
 
         if (draw_DirectionLeftRight)
         {
-            Debug.DrawRay(transform.position, directionVelocity_left.normalized * rb.velocity.magnitude * lineLength, Color.green);
-            Debug.DrawRay(transform.position, directionVelocity_right.normalized * rb.velocity.magnitude * lineLength, Color.blue);
+            Debug.DrawRay(transform.position, directionVelocity_left.normalized * rb.velocity.magnitude * lineLength, Color.red);
+            Debug.DrawRay(transform.position, directionVelocity_right.normalized * rb.velocity.magnitude * lineLength, Color.red);
         }
 
         if(draw_MovemenZone)
@@ -138,16 +138,16 @@ public class PhysicMovement : MonoBehaviour
         if(slerp)
         {
             directionVelocityUpDown = RemapSlerp(startingRotation.z - minRotationRange.z, startingRotation.z + maxRotationRange.z,
-                        directionVelocity_down, directionVelocity_up, rotation.z);
+                        directionVelocity_down.normalized, directionVelocity_up.normalized, rotation.z);
             directionVelocityLeftRight = RemapSlerp(startingRotation.x - minRotationRange.x, startingRotation.x + maxRotationRange.x,
-                                          directionVelocity_left, directionVelocity_right, rotation.x);
+                                          directionVelocity_left.normalized, directionVelocity_right.normalized, rotation.x);
         }
         else
         {
             directionVelocityUpDown = RemapLerp(startingRotation.z - minRotationRange.z, startingRotation.z + maxRotationRange.z,
-                        directionVelocity_down, directionVelocity_up, rotation.z);
+                        directionVelocity_down.normalized, directionVelocity_up.normalized, rotation.z);
             directionVelocityLeftRight = RemapLerp(startingRotation.x - minRotationRange.x, startingRotation.x + maxRotationRange.x,
-                                          directionVelocity_left, directionVelocity_right, rotation.x);
+                                          directionVelocity_left.normalized, directionVelocity_right.normalized, rotation.x);
         }
         rb.velocity = (directionVelocityUpDown + directionVelocityLeftRight).normalized * magnitudeVelocity;
     }
@@ -160,21 +160,16 @@ public class PhysicMovement : MonoBehaviour
             DrawComplex(true, true, false, false, false, false, false);
         */
 
-        DrawComplex(true, false, true, true, true, false, false, slerp);
-        DrawComplex(true, false, false, true, true, false, false, slerp);
+        DrawComplex(true, false, true, true, true, false, false, slerp, Color.red);
+        DrawComplex(true, false, false, true, true, false, false, slerp, Color.red);
 
-        DrawComplex(true, true, false, true, false, true, false, slerp);
-        DrawComplex(true, true, false, true, false, false, false, slerp);
+        DrawComplex(true, true, false, true, false, true, false, slerp, Color.green);
+        DrawComplex(true, true, false, true, false, false, false, slerp, Color.green);
 
-        DrawComplex(true, true, false, true, true, false, false, slerp);
-        DrawComplex(true, true, false, true, true, false, true, slerp);
-
-        Debug.DrawLine(transform.position, transform.position + (directionVelocity_down + directionVelocity_right).normalized * max_MagnitudeVelocity * lineLength);
-        Debug.DrawLine(transform.position, transform.position + (directionVelocity_down + directionVelocity_left).normalized * max_MagnitudeVelocity * lineLength);
-        Debug.DrawLine(transform.position, transform.position + (directionVelocity_up + directionVelocity_right).normalized * min_MagnitudeVelocity * lineLength);
-        Debug.DrawLine(transform.position, transform.position + (directionVelocity_up + directionVelocity_left).normalized * min_MagnitudeVelocity * lineLength);
+        DrawComplex(true, true, false, true, true, false, false, slerp, Color.cyan);
+        DrawComplex(true, true, false, true, true, false, true, slerp, Color.cyan);
     }
-    void DrawComplex(bool drawLR, bool moveLR, bool maxLR, bool drawUD, bool moveUD, bool maxUD, bool invert, bool slerp)
+    void DrawComplex(bool drawLR, bool moveLR, bool maxLR, bool drawUD, bool moveUD, bool maxUD, bool invert, bool slerp, Color color)
     {
         Vector3 direction1 = Vector3.zero;
         Vector3 new_direction1 = Vector3.zero;
@@ -207,26 +202,26 @@ public class PhysicMovement : MonoBehaviour
                 {
                     if(slerp)
                     {
-                        direction2 = RemapSlerp(1, 0, directionVelocity_left, directionVelocity_right, h1);
-                        new_direction2 = RemapSlerp(1, 0, directionVelocity_left, directionVelocity_right, h1 + h2);
+                        direction2 = RemapSlerp(1, 0, directionVelocity_left.normalized, directionVelocity_right.normalized, h1);
+                        new_direction2 = RemapSlerp(1, 0, directionVelocity_left.normalized, directionVelocity_right.normalized, h1 + h2);
                     }
                     else
                     {
-                        direction2 = RemapLerp(1, 0, directionVelocity_left, directionVelocity_right, h1);
-                        new_direction2 = RemapLerp(1, 0, directionVelocity_left, directionVelocity_right, h1 + h2);
+                        direction2 = RemapLerp(1, 0, directionVelocity_left.normalized, directionVelocity_right.normalized, h1);
+                        new_direction2 = RemapLerp(1, 0, directionVelocity_left.normalized, directionVelocity_right.normalized, h1 + h2);
                     }
                 }
                 else
                 {
                     if(slerp)
                     {
-                        direction2 = RemapSlerp(0, 1, directionVelocity_left, directionVelocity_right, h1);
-                        new_direction2 = RemapSlerp(0, 1, directionVelocity_left, directionVelocity_right, h1 + h2);
+                        direction2 = RemapSlerp(0, 1, directionVelocity_left.normalized, directionVelocity_right.normalized, h1);
+                        new_direction2 = RemapSlerp(0, 1, directionVelocity_left.normalized, directionVelocity_right.normalized, h1 + h2);
                     }
                     else
                     {
-                        direction2 = RemapLerp(0, 1, directionVelocity_left, directionVelocity_right, h1);
-                        new_direction2 = RemapLerp(0, 1, directionVelocity_left, directionVelocity_right, h1 + h2);
+                        direction2 = RemapLerp(0, 1, directionVelocity_left.normalized, directionVelocity_right.normalized, h1);
+                        new_direction2 = RemapLerp(0, 1, directionVelocity_left.normalized, directionVelocity_right.normalized, h1 + h2);
                     }
 
                 }
@@ -250,20 +245,20 @@ public class PhysicMovement : MonoBehaviour
 
                 if(slerp)
                 {
-                    direction1 = RemapSlerp(0, 1, directionVelocity_down, directionVelocity_up, k1);
-                    new_direction1 = RemapSlerp(0, 1, directionVelocity_down, directionVelocity_up, k1 + k2);
+                    direction1 = RemapSlerp(0, 1, directionVelocity_down.normalized, directionVelocity_up.normalized, k1);
+                    new_direction1 = RemapSlerp(0, 1, directionVelocity_down.normalized, directionVelocity_up.normalized, k1 + k2);
                 }
                 else
                 {
-                    direction1 = RemapLerp(0, 1, directionVelocity_down, directionVelocity_up, k1);
-                    new_direction1 = RemapLerp(0, 1, directionVelocity_down, directionVelocity_up, k1 + k2);
+                    direction1 = RemapLerp(0, 1, directionVelocity_down.normalized, directionVelocity_up.normalized, k1);
+                    new_direction1 = RemapLerp(0, 1, directionVelocity_down.normalized, directionVelocity_up.normalized, k1 + k2);
                 }
 
                 magnitude = Remap(0, 1, max_MagnitudeVelocity, min_MagnitudeVelocity, magnitudeCurve.Evaluate(k1));
                 new_magnitude = Remap(0, 1, max_MagnitudeVelocity, min_MagnitudeVelocity, magnitudeCurve.Evaluate(k1 + k2));
             }
             Debug.DrawLine(transform.position + (direction1 + direction2).normalized * magnitude * lineLength,
-               transform.position + (new_direction1 + new_direction2).normalized * new_magnitude * lineLength);
+               transform.position + (new_direction1 + new_direction2).normalized * new_magnitude * lineLength, color);
         }
     }
     public static float Remap(float min_A, float max_A, float min_B, float max_B, float A)
